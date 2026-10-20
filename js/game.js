@@ -7,8 +7,9 @@ export const COLS = 20;
 export const ROWS = 15;
 
 // 점수에 따른 속도(프레임 간격 ms). 낮을수록 빠르다.
-const BASE_INTERVAL = 140;
-const MIN_INTERVAL = 70;
+// 처음에는 느리게 시작해 사과를 먹을수록 조금씩 빨라진다.
+const BASE_INTERVAL = 220;
+const MIN_INTERVAL = 90;
 const SPEEDUP_PER_APPLE = 4;
 
 const DIRECTIONS = {
