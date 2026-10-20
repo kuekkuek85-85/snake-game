@@ -29,6 +29,7 @@ const el = {
   canvas: document.getElementById("board"),
   boardWrap: document.querySelector(".board-wrap"),
   touchControls: document.getElementById("touch-controls"),
+  btnPause: document.querySelector(".dpad-pause"),
 };
 
 let game = null;
@@ -94,6 +95,10 @@ function startGame() {
   el.hudBest.textContent = bestScore;
   el.hudScore.textContent = "0";
   el.overlayPause.classList.add("hidden");
+  if (el.btnPause) {
+    el.btnPause.textContent = "⏸";
+    el.btnPause.setAttribute("aria-label", "일시정지");
+  }
   showScreen("game");
 
   if (!game) {
@@ -122,10 +127,15 @@ const KEY_MAP = {
   W: "up", A: "left", S: "down", D: "right",
 };
 
-// 일시정지 토글 + 오버레이 동기화 (키보드/버튼 공용).
+// 일시정지 토글 + 오버레이/버튼 상태 동기화 (키보드/버튼 공용).
 function togglePause() {
   const paused = game?.togglePause();
   el.overlayPause.classList.toggle("hidden", !paused);
+  if (el.btnPause) {
+    // 일시정지 상태에서는 버튼이 "재개" 역할을 하므로 아이콘/접근성 레이블도 바꾼다.
+    el.btnPause.textContent = paused ? "▶" : "⏸";
+    el.btnPause.setAttribute("aria-label", paused ? "재개" : "일시정지");
+  }
 }
 
 window.addEventListener("keydown", (e) => {
