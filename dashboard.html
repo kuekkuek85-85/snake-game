@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>대시보드 · 스네이크 순위</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <main class="app">
+    <section class="dash">
+      <div class="dash-header">
+        <h1 class="title">🏆 실시간 순위</h1>
+        <div class="dash-filter">
+          <label for="filter-class">반</label>
+          <select id="filter-class">
+            <option value="">전체</option>
+          </select>
+          <a class="link" href="index.html">← 게임으로</a>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th class="rank">순위</th>
+              <th>학번</th>
+              <th>성명</th>
+              <th class="col-score">최고 점수</th>
+            </tr>
+          </thead>
+          <tbody id="ranking-body">
+            <tr><td colspan="4" class="empty">불러오는 중…</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p id="status-line" class="status-line"></p>
+    </section>
+  </main>
+
+  <script type="module" src="js/dashboard.js"></script>
+</body>
+</html>
