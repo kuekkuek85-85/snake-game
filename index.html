@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>스네이크 게임 · 정보 수업</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <main class="app">
+    <!-- ===== 시작 화면 ===== -->
+    <section id="screen-start" class="screen is-active">
+      <h1 class="title">🐍 스네이크</h1>
+      <p class="subtitle">학번과 성명을 입력하고 시작하세요</p>
+
+      <form id="start-form" class="card form" autocomplete="off">
+        <label class="field">
+          <span>학번</span>
+          <input
+            id="input-student-id"
+            type="text"
+            inputmode="numeric"
+            placeholder="예: 1-3-07"
+            pattern="\d{1,2}-\d{1,2}-\d{1,2}"
+            required
+          />
+          <small class="hint">형식: 학년-반-번호 (예: 1-3-07)</small>
+        </label>
+
+        <label class="field">
+          <span>성명</span>
+          <input id="input-name" type="text" placeholder="예: 홍길동" maxlength="20" required />
+        </label>
+
+        <p id="start-error" class="error" role="alert" aria-live="polite"></p>
+
+        <button type="submit" class="btn btn-primary">플레이 ▶</button>
+      </form>
+
+      <a class="link" href="dashboard.html">🏆 대시보드 보기</a>
+    </section>
+
+    <!-- ===== 게임 화면 ===== -->
+    <section id="screen-game" class="screen">
+      <header class="hud">
+        <div class="hud-player">
+          <span id="hud-name" class="hud-name"></span>
+          <span id="hud-id" class="hud-id"></span>
+        </div>
+        <div class="hud-scores">
+          <div class="score-box">
+            <span class="score-label">점수</span>
+            <span id="hud-score" class="score-value">0</span>
+          </div>
+          <div class="score-box">
+            <span class="score-label">최고</span>
+            <span id="hud-best" class="score-value">0</span>
+          </div>
+        </div>
+        <button id="btn-sound" class="btn btn-icon" type="button" aria-pressed="true" title="사운드 켜기/끄기">🔊</button>
+      </header>
+
+      <div class="board-wrap">
+        <canvas id="board" width="600" height="450" aria-label="게임 보드"></canvas>
+        <div id="overlay-pause" class="overlay hidden">
+          <p>일시정지</p>
+          <small>스페이스바로 재개</small>
+        </div>
+      </div>
+
+      <p class="controls-hint">방향키 또는 WASD로 이동 · 스페이스바 일시정지</p>
+    </section>
+
+    <!-- ===== 게임 오버 화면 ===== -->
+    <section id="screen-over" class="screen">
+      <div class="card result">
+        <h2 class="title">게임 오버</h2>
+        <p id="result-score" class="result-score">점수: 0</p>
+        <p id="result-best" class="result-best"></p>
+        <p id="result-save" class="save-status" aria-live="polite"></p>
+
+        <div class="actions">
+          <button id="btn-retry" class="btn btn-primary" type="button">다시 하기 ↻</button>
+          <a class="btn btn-secondary" href="dashboard.html">대시보드 보기 🏆</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

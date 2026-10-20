@@ -1,0 +1,32 @@
+rules_version = '2';
+
+// 수업 환경 기준 단순안.
+// - 대시보드 조회(read)는 누구나 가능
+// - 쓰기(write)는 점수 형식/상한 검증으로 비정상 기록 차단
+// 운영 시에는 ① 수업 시간에만 링크 공유, ② 점수 상한·형식 검증,
+// ③ 가능하면 Anonymous Auth 추가를 함께 적용하는 것을 권장한다.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /players/{studentId} {
+      allow read: if true;
+      allow write: if request.resource.data.bestScore is number
+                   && request.resource.data.bestScore >= 0
+                   && request.resource.data.bestScore < 10000
+                   && request.resource.data.studentId is string
+                   && request.resource.data.name is string
+                   && request.resource.data.name.size() > 0
+                   && request.resource.data.name.size() <= 20;
+    }
+
+    match /scores/{scoreId} {
+      allow read: if true;
+      allow create: if request.resource.data.score is number
+                    && request.resource.data.score >= 0
+                    && request.resource.data.score < 10000
+                    && request.resource.data.studentId is string
+                    && request.resource.data.name is string;
+      allow update, delete: if false;
+    }
+  }
+}
