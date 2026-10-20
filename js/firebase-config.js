@@ -6,12 +6,12 @@
 // 값을 채우기 전까지는 기록 저장/대시보드 기능이 비활성화되고,
 // 게임은 로컬(저장 없이)로만 동작합니다.
 export const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID",
+  apiKey: "AIzaSyCnByTGta1EZieFB3WaYBEJ5hHMOg5FJI0",
+  authDomain: "snake-game-f694a.firebaseapp.com",
+  projectId: "snake-game-f694a",
+  storageBucket: "snake-game-f694a.firebasestorage.app",
+  messagingSenderId: "940618265671",
+  appId: "1:940618265671:web:ecc74e1834a4670ca1ad62",
 };
 
 // 설정이 실제 값으로 교체되었는지 간단히 확인한다.
