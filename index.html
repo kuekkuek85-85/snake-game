@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>스네이크 게임 · 정보 수업</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
@@ -65,11 +65,20 @@
         <canvas id="board" width="600" height="450" aria-label="게임 보드"></canvas>
         <div id="overlay-pause" class="overlay hidden">
           <p>일시정지</p>
-          <small>스페이스바로 재개</small>
+          <small>버튼 또는 스페이스바로 재개</small>
         </div>
       </div>
 
-      <p class="controls-hint">방향키 또는 WASD로 이동 · 스페이스바 일시정지</p>
+      <!-- 터치(스마트폰) 조작용 방향 패드 -->
+      <div id="touch-controls" class="touch-controls" aria-label="방향 조작 버튼">
+        <button class="dpad dpad-up" type="button" data-dir="up" aria-label="위">▲</button>
+        <button class="dpad dpad-left" type="button" data-dir="left" aria-label="왼쪽">◀</button>
+        <button class="dpad dpad-pause" type="button" data-action="pause" aria-label="일시정지">⏸</button>
+        <button class="dpad dpad-right" type="button" data-dir="right" aria-label="오른쪽">▶</button>
+        <button class="dpad dpad-down" type="button" data-dir="down" aria-label="아래">▼</button>
+      </div>
+
+      <p class="controls-hint">방향키·WASD·스와이프로 이동 · 스페이스바/⏸ 일시정지</p>
     </section>
 
     <!-- ===== 게임 오버 화면 ===== -->
