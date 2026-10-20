@@ -27,6 +27,9 @@ const el = {
   resultSave: document.getElementById("result-save"),
   btnRetry: document.getElementById("btn-retry"),
   canvas: document.getElementById("board"),
+  boardWrap: document.querySelector(".board-wrap"),
+  touchControls: document.getElementById("touch-controls"),
+  btnPause: document.querySelector(".dpad-pause"),
 };
 
 let game = null;
@@ -92,6 +95,10 @@ function startGame() {
   el.hudBest.textContent = bestScore;
   el.hudScore.textContent = "0";
   el.overlayPause.classList.add("hidden");
+  if (el.btnPause) {
+    el.btnPause.textContent = "⏸";
+    el.btnPause.setAttribute("aria-label", "일시정지");
+  }
   showScreen("game");
 
   if (!game) {
@@ -120,12 +127,22 @@ const KEY_MAP = {
   W: "up", A: "left", S: "down", D: "right",
 };
 
+// 일시정지 토글 + 오버레이/버튼 상태 동기화 (키보드/버튼 공용).
+function togglePause() {
+  const paused = game?.togglePause();
+  el.overlayPause.classList.toggle("hidden", !paused);
+  if (el.btnPause) {
+    // 일시정지 상태에서는 버튼이 "재개" 역할을 하므로 아이콘/접근성 레이블도 바꾼다.
+    el.btnPause.textContent = paused ? "▶" : "⏸";
+    el.btnPause.setAttribute("aria-label", paused ? "재개" : "일시정지");
+  }
+}
+
 window.addEventListener("keydown", (e) => {
   if (!screens.game.classList.contains("is-active")) return;
   if (e.key === " " || e.code === "Space") {
     e.preventDefault();
-    const paused = game?.togglePause();
-    el.overlayPause.classList.toggle("hidden", !paused);
+    togglePause();
     return;
   }
   const dir = KEY_MAP[e.key];
@@ -134,6 +151,58 @@ window.addEventListener("keydown", (e) => {
     game?.setDirection(dir);
   }
 });
+
+// ===== 터치(스마트폰) 조작 =====
+// 1) 화면 방향 패드(D-pad) 버튼
+el.touchControls?.addEventListener("click", (e) => {
+  const btn = e.target.closest("button");
+  if (!btn) return;
+  if (btn.dataset.action === "pause") {
+    togglePause();
+  } else if (btn.dataset.dir) {
+    game?.setDirection(btn.dataset.dir);
+  }
+});
+
+// 2) 보드 위 스와이프 제스처
+const SWIPE_MIN = 24; // 최소 이동 거리(px)
+let touchStart = null;
+
+el.boardWrap?.addEventListener(
+  "touchstart",
+  (e) => {
+    const t = e.changedTouches[0];
+    touchStart = { x: t.clientX, y: t.clientY };
+  },
+  { passive: true }
+);
+
+// 보드 영역에서의 스와이프가 페이지 스크롤로 새지 않게 막는다.
+el.boardWrap?.addEventListener(
+  "touchmove",
+  (e) => {
+    if (touchStart) e.preventDefault();
+  },
+  { passive: false }
+);
+
+el.boardWrap?.addEventListener(
+  "touchend",
+  (e) => {
+    if (!touchStart) return;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - touchStart.x;
+    const dy = t.clientY - touchStart.y;
+    touchStart = null;
+    if (Math.abs(dx) < SWIPE_MIN && Math.abs(dy) < SWIPE_MIN) return;
+    if (Math.abs(dx) > Math.abs(dy)) {
+      game?.setDirection(dx > 0 ? "right" : "left");
+    } else {
+      game?.setDirection(dy > 0 ? "down" : "up");
+    }
+  },
+  { passive: true }
+);
 
 // 사운드 토글.
 el.btnSound.addEventListener("click", () => {
