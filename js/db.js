@@ -37,10 +37,13 @@ export function isReady() {
   return isFirebaseConfigured();
 }
 
-// "1-3-07" → "1-3"
+// "10130" → "1-1" (1학년 1반). 학번 = 학년 1자리 + 반 2자리 + 번호 2자리.
 export function parseClassName(studentId) {
-  const parts = String(studentId).split("-");
-  return parts.length >= 2 ? `${parts[0]}-${parts[1]}` : "";
+  const s = String(studentId);
+  if (!/^\d{5}$/.test(s)) return "";
+  const grade = s[0];
+  const classNum = parseInt(s.slice(1, 3), 10);
+  return `${grade}-${classNum}`;
 }
 
 /** 학생의 현재 저장된 최고 점수를 가져온다. 없으면 0. */
