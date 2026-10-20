@@ -40,11 +40,11 @@ function showScreen(name) {
 }
 
 // ===== 시작 화면 =====
-const ID_PATTERN = /^\d{1,2}-\d{1,2}-\d{1,2}$/;
+const ID_PATTERN = /^\d{5}$/;
 
 function validateInputs(studentId, name) {
   if (!ID_PATTERN.test(studentId)) {
-    return "학번 형식이 올바르지 않습니다. 예: 1-3-07";
+    return "학번은 숫자 5자리입니다. 예: 10130 (1학년 1반 30번)";
   }
   if (!name.trim()) {
     return "성명을 입력하세요.";
